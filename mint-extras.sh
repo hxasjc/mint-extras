@@ -60,7 +60,7 @@ sudo flatpak install org.kde.digikam -y
 
 # Install multimedia software
 sudo apt install vlc smplayer audacity xfburn mixxx -y
-sudo apt install spotify-client asunder picard -y
+sudo apt install asunder picard -y
 
 # Install Game software
 sudo apt install steam burgerspace gnome-mines tuxtype frozen-bubble gewled -y
@@ -75,7 +75,7 @@ sudo apt install qtqr calibre -y
 sudo apt install godot3 sublime-text filezilla -y
 
 # Install Internet stuff
-sudo apt install chromium google-earth-pro-stable remmina -y
+sudo apt install chromium remmina -y
 
 # Now for a few system utilities
 sudo apt install gnome-disk-utility warpinator gparted memtest86+ gnome-system-monitor -y
