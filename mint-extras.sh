@@ -1,82 +1,185 @@
 #!/bin/bash
+# Script started by Charles McColm, cr@theworkingcentre.org
+# for The Working Centre's Computer Recycling Project
+# Installs a bunch of extra software that's useful for our
+# Linux Mint XFCE 22 (Wilma) deployments
+# Special thanks to Cecylia Bocovich for assistance with automating parts of the script
+# https://github.com/cohosh
+#
+# Just run as ./mint-extras.sh, DO NOT run as sudo ./mint-extras.sh
 
-# mint-extras.sh - install extra software useful for general computer use
-# created by: chaslinux@gmail.com
 
-# Do not run this script as root or sudo, it will run sudo on the commands 
-# it needs to.
+# set the current directory
+currentdir=$(pwd)
 
-# This script was created as part of a move away from Xubuntu to Linux Mint
-# XFCE. 
-
-# Update the software repositories and the system
+# Run updates first as some software may not install unless the system is
+# updated
 sudo apt update && sudo apt upgrade -y
 
-# Install a few code essentials
-sudo apt install git build-essential curl -y
+# Mint already has integrated flatpack support
 
-# Install btop
-sudo apt install btop -y
+distro=$(cat /etc/lsb-release | grep CODENAME)
 
-# Install phoronix-test-suite for testing, and for extensive system information
-# make a directory to put github projects in, then clone the
-# phoronix-test-suite repository to it
+# Install OnlyOffice
+onlyoffice=$(dpkg -s onlyoffice-desktopeditors | grep Status)
+if [ ! "$onlyoffice" == "Status: install ok installed" ]
+	then
+		wget -O onlyoffice.deb https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb
+		sudo dpkg -i onlyoffice.deb
+		sudo apt --fix-broken install -y
+	else
+		echo "OnlyOffice is already installed"
+fi
 
-echo "Making a ~/Code directory to hold our Github projects..."
-mkdir ~/Code
-cd ~/Code
-echo "*** Cloning the phoronix-test-suite repository ***"
-git clone https://github.com/phoronix-test-suite/phoronix-test-suite.git
-cd phoronix-test-suite
-# Install the php dependencies first
-echo "*** Install the PHP dependencies for phoronix ***"
-sudo apt install php-cli php-xml php-gd php-bz2 php-sqlite3 php-curl -y
-# run the phoronix install script
-sudo ./install-sh
-echo "*** phoronix-test-suite should now be installed ***"
-# now go back to the ~/Code directory for other projects
-cd ~/Code
+# install Zoom for conferencing
+zoom=$(dpkg -s zoom | grep Status)
+if [ ! "$zoom" == "Status: install ok installed" ]
+	then
+	  echo "Installing Zoom"
+	  wget -O zoom.deb https://zoom.us/client/latest/zoom_amd64.deb
+	  sudo dpkg -i zoom.deb
+	  sudo apt --fix-broken install -y
+	else
+	  echo "Zoom is already installed"
+fi
 
-# Install more system information
-sudo apt install cpu-x hardinfo -y
+# install btop, htop, mc, curl, git and build-essential because they're awesome tools
+sudo apt install btop htop mc curl git build-essential acpi unzip -y
 
-# Install software for communicating with others
-sudo flatpak install com.discordapp.Discord zoom -y
+# Install webp support
+sudo apt install webp-pixbuf-loader -y
 
-# Install graphics software
-sudo apt install krita -y
-sudo apt install gimp gimp-gmic gimp-guntenprint gimp-help-en gimp-lensfun gimp-resynthesizer gimp-save-for-web -y
-# sudo flatpak install org.gabmus.swatch -y
+# Install Steam and some Microsoft Fonts
+echo "Installing Steam and MS TTF Fonts"
+sudo DEBIAN_FRONTEND=noninteractive apt install steam ttf-mscorefonts-installer -y
 
-# Install webcam software, vector drawing software, and 3D graphics software
+
+# install guvcview and cheese - cheese has issues with some webcams
+echo "Installing guvcview"
 sudo apt install guvcview cheese -y
+
+# installing VLC
+echo "Installing VLC"
+sudo apt install vlc -y
+
+# installing msttcorefonts
+# 02/06/2022 - added DEBIAN_FRONTEND=noninteractive because I saw a Y/N font prompt on a system I'd stepped away from
+echo "Installing msttcorefonts"
+sudo DEBIAN_FRONTEND=noninteractive apt install msttcorefonts -y
+
+# Microsoft has gracefully given us some cool opentype fonts, let's install those
+# Sadly they're burried in a subdirectory of a subdirectory and not named nicely, so let's do that too
+cd $currentdir
+
+if [ ! -e CascadiaCode-2404.23.zip ]
+	then
+		wget https://github.com/microsoft/cascadia-code/releases/download/v2404.23/CascadiaCode-2404.23.zip
+		unzip CascadiaCode-2404.23.zip
+		mkdir -p CascadiaCode
+		mv $currentdir/ttf/* CascadiaCode
+		sudo cp -r CascadiaCode/ /usr/share/fonts/truetype
+		rm -rf CascadiaCode/
+		rm -rf ttf/
+		rm -rf woff2/
+		mkdir -p CascadiaCode
+		mv $currentdir/otf/static/* CascadiaCode/
+		rm -rf otf/
+	else
+		echo "CascadiaCode already downloaded and unzipped"
+fi
+sudo cp -r CascadiaCode/ /usr/share/fonts/opentype
+
+# installing gstreamer1.0-plugins-ugly
+echo "Installing gstreamer1.0-plugins-ugly"
+sudo apt install gstreamer1.0-plugins-ugly -y
+
+# install plugins to allow parole to play movie DVDs
+sudo apt install gstreamer1.0-plugins-bad* -y
+
+# installing tuxpaint
+echo "Installing tuxpaint"
+sudo apt install tuxpaint -y
+
+# installing DVD decryption software
+echo "Installing libdvd-pkg"
+sudo DEBIAN_FRONTEND=noninteractive apt install libdvd-pkg -y
+sudo DEBIAN_FRONTEND=noninteractive dpkg-reconfigure libdvd-pkg
+
+# installing Inkscape
+echo "Installing Inkscape"
 sudo apt install inkscape -y
-sudo apt install blender -y
 
-# The following are for managing photographs
-sudo apt install darktable rawtherapee rapid-photo-downloader -y
-sudo flatpak install com.xnview.XnViewMP -y
-sudo flatpak install org.kde.digikam -y
+# installing handbrake and winff
+echo "Installing handbrake and winff"
+sudo apt install handbrake winff -y
 
-# Install multimedia software
-sudo apt install vlc smplayer audacity xfburn mixxx -y
-sudo apt install asunder picard -y
+# installing games
+# added icebreaker 10/27/2021
+echo "Installing a bunch of games"
+sudo apt install lbreakout2 freedroid frozen-bubble kobodeluxe aisleriot gnome-mahjongg pysolfc icebreaker supertux mrrescue marsshooter caveexpress -y
 
-# Install Game software
-sudo apt install steam burgerspace gnome-mines tuxtype frozen-bubble gewled -y
-sudo apt install anagramarama freedroid open-invaders aisleriot -y
+# installing hydrogen drum kit and kits
+echo "Installing Hydrogen"
+sudo apt install hydrogen hydrogen-drumkits -y
 
-# Install software to manage documents
-sudo flatpak install org.onlyoffice.desktopeditors -y
-sudo flatpak install net.rpdev.OpenTodoList -y
-sudo apt install qtqr calibre -y
+# install audacity
+echo "Installing audacity"
+sudo apt install audacity -y
 
-# Install software development stuff
-sudo apt install godot3 sublime-text filezilla -y
+# install neofetch
+sudo apt install neofetch -y
 
-# Install Internet stuff
-sudo apt install chromium remmina -y
+# install hardinfo cpu-x
+sudo apt install hardinfo cpu-x -y
 
-# Now for a few system utilities
-sudo apt install gnome-disk-utility warpinator gparted memtest86+ gnome-system-monitor -y
+# install more screensavers!
+sudo apt install xscreensaver-data-extra -y
+
+# install putty for terminal SSH hackers
+sudo apt install putty -y
+
+# install gnome-disk-utility
+sudo apt install gnome-disk-utility -y
+
+# install tools to read MacOS formatted drives
+sudo apt install hfsprogs hfsplus hfsutils -y
+
+# set up the sensors
+sensors=$(dpkg -s lm-sensors | grep Status)
+if [ ! "$sensors" == "Status: install ok installed" ]
+	then
+		echo "Installing lm-sensors"
+		sudo apt install lm-sensors -y
+		sudo sensors-detect
+		sensors > /home/$USER/Desktop/sensors.txt
+	else
+		echo "Lm-sensors is already installed."
+fi
+
+# set VLC to be the default DVD player
+# xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s 'vlc dvd://'
+
+
+# check if this appears to be a laptop and if so install tlp and powertop
+if [ -d "/proc/acpi/button/lid" ]; then
+	sudo apt install tlp powertop-1.13 -y
+	sudo service enable tlp
+fi
+
+# remove the old deb files
+cd $currentdir
+
+rm onlyoffice.deb zoom.deb phoronix.deb adobe.deb
+
+# Remove uvcdynctrl as it seems to sometimes create enormous (200GB+) log files
+sudo apt purge uvcdynctrl -y
+sudo apt autoremove -y
+
+# GIMP is not installed in Linux Mint, so let's install it
+echo "Installing GIMP..."
+sudo apt install gimp -y
+
+# Install Godot for making games
+sudo apt install godot3 -y
+
 
