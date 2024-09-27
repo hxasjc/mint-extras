@@ -109,6 +109,10 @@ sudo DEBIAN_FRONTEND=noninteractive dpkg-reconfigure libdvd-pkg
 echo "Installing Inkscape"
 sudo apt install inkscape -y
 
+# install Krita, as it's handy for artists. Note, this adds lots of KDE dependencies
+echo "Installing Krita"
+sudo apt install krita -y
+
 # installing handbrake and winff
 echo "Installing handbrake and winff"
 sudo apt install handbrake winff -y
@@ -182,4 +186,5 @@ sudo apt install gimp -y
 # Install Godot for making games
 sudo apt install godot3 -y
 
-
+# Install Tuxtyping for kids
+sudo apt install tuxtype -y
