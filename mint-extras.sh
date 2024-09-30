@@ -137,7 +137,9 @@ sudo apt install neofetch -y
 sudo apt install hardinfo cpu-x -y
 
 # install more screensavers!
-sudo apt install xscreensaver-data-extra -y
+sudo apt install xscreensaver xscreensaver-data xscreensaver-data-extra -y
+sudo apt install xscreensaver-gl xscreensaver-gl-extra -y
+sudo apt install xscreensaver-screensaver-bsod -y
 
 # install putty for terminal SSH hackers
 sudo apt install putty -y
@@ -172,7 +174,6 @@ fi
 
 # remove the old deb files
 cd $currentdir
-
 rm onlyoffice.deb zoom.deb phoronix.deb adobe.deb
 
 # Remove uvcdynctrl as it seems to sometimes create enormous (200GB+) log files
