@@ -160,6 +160,7 @@ if [ ! "$sensors" == "Status: install ok installed" ]
 		sensors > /home/$USER/Desktop/sensors.txt
 	else
 		echo "Lm-sensors is already installed."
+  		sensors > /home/$USER/Desktop/sensors.txt
 fi
 
 # set VLC to be the default DVD player
