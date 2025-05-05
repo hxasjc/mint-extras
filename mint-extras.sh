@@ -46,6 +46,9 @@ fi
 # install gnome-firmware, a graphical program to update firmware on 2015 or newer systems with UEFI enabled
 sudo apt install gnome-firmware -y
 
+# Control the CPU governor to select between power saving and performance mode
+sudo apt install cpu-power-gui -y
+
 # install btop, htop, mc, curl, git and build-essential because they're awesome tools
 sudo apt install btop htop mc curl git build-essential acpi unzip -y
 
