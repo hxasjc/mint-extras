@@ -21,27 +21,13 @@ sudo apt update && sudo apt upgrade -y
 distro=$(cat /etc/lsb-release | grep CODENAME)
 
 # Install OnlyOffice
-onlyoffice=$(dpkg -s onlyoffice-desktopeditors | grep Status)
-if [ ! "$onlyoffice" == "Status: install ok installed" ]
-	then
-		wget -O onlyoffice.deb https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb
-		sudo dpkg -i onlyoffice.deb
-		sudo apt --fix-broken install -y
-	else
-		echo "OnlyOffice is already installed"
-fi
+flatpak install org.onlyoffice.desktopeditors -y
 
 # install Zoom for conferencing
-zoom=$(dpkg -s zoom | grep Status)
-if [ ! "$zoom" == "Status: install ok installed" ]
-	then
-	  echo "Installing Zoom"
-	  wget -O zoom.deb https://zoom.us/client/latest/zoom_amd64.deb
-	  sudo dpkg -i zoom.deb
-	  sudo apt --fix-broken install -y
-	else
-	  echo "Zoom is already installed"
-fi
+flatpak install us.zoom.Zoom -y
+
+# install Discord for discord conferencing
+flatpak install com.discordapp.Discord -y
 
 # install gnome-firmware, a graphical program to update firmware on 2015 or newer systems with UEFI enabled
 sudo apt install gnome-firmware -y
@@ -59,6 +45,8 @@ sudo apt install webp-pixbuf-loader -y
 echo "Installing Steam and MS TTF Fonts"
 sudo DEBIAN_FRONTEND=noninteractive apt install steam ttf-mscorefonts-installer -y
 
+# Install FreeCAD Flatpack software
+flatpack install org.freecad.FreeCAD -y
 
 # install guvcview and cheese - cheese has issues with some webcams
 echo "Installing guvcview"
@@ -182,10 +170,6 @@ if [ -d "/proc/acpi/button/lid" ]; then
 	sudo apt install tlp powertop-1.13 -y
 	sudo service enable tlp
 fi
-
-# remove the old deb files
-cd $currentdir
-rm onlyoffice.deb zoom.deb phoronix.deb adobe.deb
 
 # Remove uvcdynctrl as it seems to sometimes create enormous (200GB+) log files
 sudo apt purge uvcdynctrl -y
