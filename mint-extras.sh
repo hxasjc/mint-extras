@@ -33,7 +33,7 @@ flatpak install com.discordapp.Discord -y
 sudo apt install gnome-firmware -y
 
 # Control the CPU governor to select between power saving and performance mode
-sudo apt install cpu-power-gui -y
+sudo apt install cpupower-gui -y
 
 # install btop, htop, mc, curl, git and build-essential because they're awesome tools
 sudo apt install btop htop mc curl git build-essential acpi unzip -y
