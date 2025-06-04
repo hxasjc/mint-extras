@@ -48,6 +48,10 @@ sudo DEBIAN_FRONTEND=noninteractive apt install steam ttf-mscorefonts-installer 
 # Install FreeCAD Flatpack software
 flatpack install org.freecad.FreeCAD -y
 
+# Install PySol Flatpak - Pysol Debian package is bugged because it needs old dependencies
+# with Thanks to Tom Goulet for suggesting we include this back in.
+flatpak install io.sourceforge.pysolfc.PySolFC -y
+
 # install guvcview and cheese - cheese has issues with some webcams
 echo "Installing guvcview"
 sudo apt install guvcview cheese -y
