@@ -29,6 +29,9 @@ flatpak install us.zoom.Zoom -y
 # install Discord for discord conferencing
 flatpak install com.discordapp.Discord -y
 
+# install gparted, it's surprisingly not in Linux Mint XFCE
+sudo apt install gparted -y
+
 # install gnome-firmware, a graphical program to update firmware on 2015 or newer systems with UEFI enabled
 sudo apt install gnome-firmware -y
 
