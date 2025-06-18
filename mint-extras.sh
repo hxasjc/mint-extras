@@ -49,7 +49,7 @@ echo "Installing Steam and MS TTF Fonts"
 sudo DEBIAN_FRONTEND=noninteractive apt install steam ttf-mscorefonts-installer -y
 
 # Install FreeCAD Flatpack software
-flatpack install org.freecad.FreeCAD -y
+flatpak install org.freecad.FreeCAD -y
 
 # Install PySol Flatpak - Pysol Debian package is bugged because it needs old dependencies
 # with Thanks to Tom Goulet for suggesting we include this back in.
