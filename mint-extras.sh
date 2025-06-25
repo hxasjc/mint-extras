@@ -29,6 +29,9 @@ flatpak install us.zoom.Zoom -y
 # install Discord for discord conferencing
 flatpak install com.discordapp.Discord -y
 
+# install Mission Center because it's a nice way to monitor resources
+flatpak install io.missioncenter.MissionCenter -y 
+
 # install gparted, it's surprisingly not in Linux Mint XFCE
 sudo apt install gparted -y
 
