@@ -134,8 +134,10 @@ sudo apt install hydrogen hydrogen-drumkits -y
 echo "Installing audacity"
 sudo apt install audacity -y
 
-# install neofetch
-sudo apt install neofetch -y
+# removed neofetch, not updated anymore, install fastfetch
+sudo add-apt-repository ppa:zhangsongcui3371/fastfetch -y
+sudo apt update
+sudo apt install fastfetch -y
 
 # install hardinfo cpu-x
 sudo apt install hardinfo cpu-x -y
