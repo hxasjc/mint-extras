@@ -196,3 +196,16 @@ sudo apt install godot3 -y
 
 # Install Tuxtyping for kids
 sudo apt install tuxtype -y
+
+### The following changes are to make Linux Mint XFCE a bit more friendly. Other XFCE-based distributions
+### have these settings on, oddly Linux Mint XFCE doesn't.
+
+# Show volume adjustment when pressing volume keys
+xfconf-query -c xfce4-panel -p /plugins/plugin-12/show-notifications -r
+xfconf-query -c xfce4-panel -p /plugins/plugin-12/show-notifications -s true
+
+# Change the power button pressed action to ASK whether the person wants to power down (was do nothing)
+xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/power-button-action --set 3
+
+
+
