@@ -205,6 +205,8 @@ xfconf-query -c xfce4-panel -p /plugins/plugin-12/show-notifications -r
 xfconf-query -c xfce4-panel -p /plugins/plugin-12/show-notifications -s true
 
 # Change the power button pressed action to ASK whether the person wants to power down (was do nothing)
+# xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/power-button-action --create --type int --set 3
+cp /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
 xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/power-button-action --set 3
 
 
