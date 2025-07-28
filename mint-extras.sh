@@ -209,5 +209,10 @@ xfconf-query -c xfce4-panel -p /plugins/plugin-12/show-notifications -s true
 cp /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml ~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
 xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/power-button-action --set 3
 
+# Show the default set of icons for the home folder, filesystem, removable drives and trash
+xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-home --set true
+xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-removable --set true
+xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-trash --set true
+
 
 
