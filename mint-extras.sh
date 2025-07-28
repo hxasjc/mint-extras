@@ -214,5 +214,9 @@ xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-home --set true
 xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-removable --set true
 xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-trash --set true
 
+#install shortcuts to current user desktop
+cp $currentdir/desktop/* ~/Desktop
 
-
+#install shortcuts to skel desktop
+sudo mkdir /etc/skel/Desktop
+sudo cp $currentdir/desktop/* /etc/skel/Desktop
