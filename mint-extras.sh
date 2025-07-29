@@ -214,19 +214,10 @@ xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-home --set true
 xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-removable --set true
 xfconf-query -c xfce4-desktop -p /desktop-icons/file-icons/show-trash --set true
 
-#function to mass trust .desktop files that we copy over
-function mass_trust_desktop {
-	for f in "$1/*.desktop"; do
- 		chmod +x "$f"
-   		gio set -t string "$f" metadata::xfce-exe-checksum "$(sha256sum "$f" | awk '{print $1}')"
-     	done
-}
-
-#install shortcuts to current user desktop
+#install shortcuts to current user desktop and tell thunar to trust them
+#as of 4.18, thunar requires we trust launchers as opposed to just setting executable bit (see https://forum.xfce.org/viewtopic.php?id=16357)
 cp $currentdir/desktop/* ~/Desktop
-mass_trust_desktop ~/Desktop
-
-#install shortcuts to skel desktop
-sudo mkdir /etc/skel/Desktop
-sudo cp $currentdir/desktop/* /etc/skel/Desktop
-sudo mass_trust_desktop /etc/skel/Desktop
+for f in ~/Desktop/*.desktop; do
+        chmod +x "$f";
+        gio set -t string "$f" metadata::xfce-exe-checksum "$(sha256sum "$f" | awk '{print $1}')";
+done
